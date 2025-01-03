@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -9,6 +10,7 @@ body {
 
 .header {
   margin: 2rem 2rem;
+  font-weight: bolder;
 }
 
 .text-container {
@@ -16,8 +18,9 @@ body {
   justify-content: center;
   background-color: grey;
   color: white;
-  padding: 2rem;
-  font-size: 1.5rem;
+  padding: 1rem;
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
 .results {
@@ -27,4 +30,17 @@ body {
 
 #timer {
   font-size: 2rem;
+}
+
+#userTextInput {
+  padding: 1rem;
+  font-size: 2rem;
+  border: 0.1rem solid black;
+  border-radius: 0.5rem;
+}
+#correct-words {
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 2rem auto;
+  font-weight: bold;
 }

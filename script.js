@@ -2,6 +2,7 @@ const wordsContainer = document.querySelector(".text-container");
 const wordsEl = document.getElementById("words-area");
 const timerEl = document.getElementById("timer");
 const typingInput = document.getElementById("userTextInput");
+const correctWordsHTML = document.getElementById("correct-words");
 const words = [
   "function",
   "seat",
@@ -53,25 +54,61 @@ function updateTimer() {
   ).padStart(2, "0")}`;
   if (seconds == 0) {
     clearInterval(timer);
+    stopGame();
   }
+}
+
+function stopGame() {
+  alert(`Game over! Words per minute: ${correctWords}`);
+  typingInput.disabled = true;
 }
 
 const timer = setInterval(updateTimer, 1000);
 
 function startGame() {
   updateTimer();
-  const randomWords = wordsPickerForGame(10);
-  wordsEl.textContent = randomWords;
+  const randomWords = wordsPickerForGame(5);
+  randomWords.split(" ").forEach((word) => {
+    const wordSpan = document.createElement("span");
+    wordSpan.textContent = word;
+    wordSpan.style.marginRight = "10px";
+    wordsEl.appendChild(wordSpan);
+  });
 }
 
-let currentWordIndex = 0;
-
 typingInput.addEventListener("input", function () {
-  if (typingInput.value === pickedWords[currentWordIndex]) {
-    correctWords++;
+  const currentWord = pickedWords[0];
+  if (currentWord.startsWith(typingInput.value)) {
+    wordsEl.children[0].style.color = "green";
+  } else {
+    wordsEl.children[0].style.color = "red";
+  }
+});
+
+typingInput.addEventListener("keydown", function (e) {
+  if (e.code === "Space") {
+    e.preventDefault();
+    const currentWord = pickedWords[0];
+
+    if (typingInput.value === currentWord) {
+      correctWords++;
+      correctWordsHTML.textContent = `Correct Words: ${correctWords}`;
+      wordsEl.children[0].style.color = "";
+    } else {
+      mistakenWords++;
+      wordsEl.children[0].style.color = "";
+    }
+
+    if (wordsEl.children[0]) {
+      wordsEl.children[0].remove();
+      pickedWords.shift();
+    }
     typingInput.value = "";
-    currentWordIndex++;
-    console.log(correctWords);
+
+    if (pickedWords.length === 0) {
+      stopGame();
+      clearInterval(timer);
+    }
   }
 });
 
